@@ -1,5 +1,5 @@
 /**
-* Package for calculate task.
+* Package for calculate test.
 *
 * @author Vitaly Lobach (deta4ed@gmail.com)
 * @version $Id$
