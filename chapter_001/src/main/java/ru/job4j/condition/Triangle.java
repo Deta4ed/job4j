@@ -64,7 +64,7 @@ public class Triangle {
         double max;
 
         max = ab >= ac ? ab : ac;
-        max = bc >= max ? ab : max;
+        max = bc >= max ? bc : max;
 
         return ab + ac + bc != max * 2;
     }
