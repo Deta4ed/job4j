@@ -61,11 +61,6 @@ public class Triangle {
      * @return true - is exist.
      */
     private boolean exist(double ab, double ac, double bc) {
-        double max;
-
-        max = ab >= ac ? ab : ac;
-        max = bc >= max ? bc : max;
-
-        return ab + ac + bc != max * 2;
+        return ab + ac > bc && ab + bc > ac && ac + bc > ab;
     }
 }
