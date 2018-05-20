@@ -12,10 +12,26 @@ import static org.hamcrest.core.Is.is;
  * since 0.1
  */
 public class BubbleSortTest {
+/*    @Test
+    public void whenSortArrayThenSortedArray() {
+        int[] input = new int[] {10, 2, 6, 4, 3, 8, 5, 7, 9, 1, 0};
+        int[] result = new BubbleSort().sort(input);
+        int[] expect = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        assertThat(result, is(expect));
+    }*/
+
     @Test
     public void whenSortArrayThenSortedArray() {
         int[] input = new int[] {10, 2, 6, 4, 3, 8, 5, 7, 9, 1, 0};
         int[] result = new BubbleSort().sort(input);
+        int[] expect = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        assertThat(result, is(expect));
+    }
+
+    @Test
+    public void whenSortArrayThenSortedArray1() {
+        int[] input = new int[] {10, 2, 6, 4, 3, 8, 5, 7, 9, 1, 0};
+        int[] result = new BubbleSort().sort1(input);
         int[] expect = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         assertThat(result, is(expect));
     }
