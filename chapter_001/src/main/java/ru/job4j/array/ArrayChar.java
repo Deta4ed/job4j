@@ -23,12 +23,13 @@ public class ArrayChar {
         boolean result = true;
         char[] value = prefix.toCharArray();
         if (data.length < value.length) {
-            return false;
-        }
-        for (int index = 0; index < value.length; index++) {
-            if (value[index] != data[index]) {
-                result = false;
-                break;
+            result = false;
+        } else {
+            for (int index = 0; index < value.length; index++) {
+                if (value[index] != data[index]) {
+                    result = false;
+                    break;
+                }
             }
         }
         return result;
