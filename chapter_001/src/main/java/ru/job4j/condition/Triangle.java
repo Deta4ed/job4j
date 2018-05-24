@@ -48,7 +48,6 @@ public class Triangle {
      * @return Перимент.
      */
     public double period(double ab, double ac, double bc) {
-
         return (ab + ac + bc) / 2;
     }
 
