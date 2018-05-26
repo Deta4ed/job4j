@@ -47,10 +47,10 @@ public class Tracker {
         for (int index = 0; index < this.position; index++) {
             if (this.items[index].getId().equals(id)) {
                 System.arraycopy(this.items, index + 1, this.items, index, position - index - 1);
+                position--;
                 break;
             }
         }
-        position--;
     }
 
     /**
