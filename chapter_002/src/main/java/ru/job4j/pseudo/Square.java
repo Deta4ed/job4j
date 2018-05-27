@@ -1,7 +1,5 @@
 package ru.job4j.pseudo;
 
-import com.sun.org.apache.xml.internal.serialize.LineSeparator;
-
 /**
  * Class Square.
  *
