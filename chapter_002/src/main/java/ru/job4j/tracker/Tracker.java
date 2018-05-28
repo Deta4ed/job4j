@@ -14,6 +14,7 @@ public class Tracker {
     private final Item[] items = new Item[100];
     private int position = 0;
     private static final Random RN = new Random(100);
+    public boolean actual = true;
 
     /**
      * add item.
