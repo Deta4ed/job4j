@@ -5,6 +5,7 @@ import org.junit.After;
 import org.junit.Before;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.StringJoiner;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -16,7 +17,6 @@ import static org.hamcrest.core.Is.is;
  * since 0.1
  */
 public class StartUITest {
-    private static final String LN = System.lineSeparator();
     private final PrintStream stdout = System.out;
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
     private Tracker tracker;
@@ -64,15 +64,16 @@ public class StartUITest {
     public void whenShowAllThenOut() {
         Input input = new StubInput(new String[]{"1", "6"});
         new StartUI(input, this.tracker).init();
+        StartUITest startUITest = new StartUITest();
         assertThat(new String(out.toByteArray()),
-                is(
-                    StartUITest.menu(
-                        StartUITest.request(
-                            StartUITest.menu(new StringBuilder()
-                            )
+            is(
+                startUITest.menu(
+                    startUITest.request(
+                        startUITest.menu(new StringJoiner(System.lineSeparator())
                         )
-                    ).toString()
-                )
+                    )
+                ).toString()
+            )
         );
     }
 
@@ -80,37 +81,38 @@ public class StartUITest {
     public void whenFindIdThenOut() {
         Input input = new StubInput(new String[]{"4", "1526211524702", "6"});
         new StartUI(input, this.tracker).init();
+        StartUITest startUITest = new StartUITest();
         assertThat(new String(out.toByteArray()),
-                is(
-                        StartUITest.menu(
-                                StartUITest.request(
-                                        StartUITest.menu(new StringBuilder()
-                                        )
-                                )
-                        ).toString()
-                )
+            is(
+                startUITest.menu(
+                    startUITest.request(
+                        startUITest.menu(new StringJoiner(System.lineSeparator())
+                        )
+                    )
+                ).toString()
+            )
         );
     }
 
-    private static StringBuilder menu(StringBuilder str) {
-        str.append("Menu:").append(LN);
-        str.append("0. Add new Item").append(LN);
-        str.append("1. Show all items").append(LN);
-        str.append("2. Edit item").append(LN);
-        str.append("3. Delete item").append(LN);
-        str.append("4. Find item by Id").append(LN);
-        str.append("5. Find items by name").append(LN);
-        str.append("6. Exit Program").append(LN);
+    private StringJoiner menu(StringJoiner str) {
+        str.add("Menu:");
+        str.add("0. Add new Item");
+        str.add("1. Show all items");
+        str.add("2. Edit item");
+        str.add("3. Delete item");
+        str.add("4. Find item by Id");
+        str.add("5. Find items by name");
+        str.add("6. Exit Program");
+        str.add("");
         return str;
     }
 
-    private static StringBuilder request(StringBuilder str) {
-        str.append(LN);
-        str.append("------------ Request ID : 1526211524702 --------------").append(LN);
-        str.append("Create :      2018/05/27 10:18:04").append(LN);
-        str.append("Name :        test1").append(LN);
-        str.append("Description : testDescription").append(LN);
-        str.append("------------------------------------------------------").append(LN);
+    private StringJoiner request(StringJoiner str) {
+        str.add("------------ Request ID : 1526211524702 --------------");
+        str.add("Create :      2018/05/27 10:18:04");
+        str.add("Name :        test1");
+        str.add("Description : testDescription");
+        str.add("------------------------------------------------------");
         return str;
     }
 }
