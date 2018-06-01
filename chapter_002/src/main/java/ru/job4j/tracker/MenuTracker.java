@@ -3,6 +3,13 @@ package ru.job4j.tracker;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * MenuTracker.
+ *
+ * @author Lobach Vitaly (deta4ed@gmail.com)
+ * version $id$
+ * since 0.1
+ */
 public class MenuTracker {
     private Input input;
     private Tracker tracker;

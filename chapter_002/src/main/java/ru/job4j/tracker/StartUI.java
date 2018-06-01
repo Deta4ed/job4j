@@ -10,6 +10,7 @@ package ru.job4j.tracker;
 public class StartUI {
     private final Input input;
     private final Tracker tracker;
+    private int[] range = new int[] {0, 1, 2, 3, 4, 5, 6};
 
     public StartUI(Input input, Tracker tracker) {
         this.input = input;
@@ -23,12 +24,11 @@ public class StartUI {
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
         while (this.tracker.actual) {
             menu.showMenu();
-            String answer = this.input.ask("Select: ");
-            menu.select(Integer.valueOf(answer));
+            menu.select(this.input.ask("Select: ", range));
         }
     }
 
     public static void main(String[] args) {
-        new StartUI(new ConsoleInput(), new Tracker()).init();
+        new StartUI(new ValidateInput(), new Tracker()).init();
     }
 }
