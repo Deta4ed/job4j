@@ -27,13 +27,13 @@ public class MenuTracker {
      * Initialization.
      */
     private void init() {
-        this.actions[0] = new AddItem();
-        this.actions[1] = new ShowAllItems();
-        this.actions[2] = new EditItem();
-        this.actions[3] = new DeleteItem();
-        this.actions[4] = new FindById();
-        this.actions[5] = new FindByName();
-        this.actions[6] = new ExitProgram();
+        this.actions[0] = new AddItem(0, "Add new Item");
+        this.actions[1] = new ShowAllItems(1, "Show all items");
+        this.actions[2] = new EditItem(2, "Edit item");
+        this.actions[3] = new DeleteItem(3, "Delete item");
+        this.actions[4] = new FindById(4, "Find item by Id");
+        this.actions[5] = new FindByName(5, "Find items by name");
+        this.actions[6] = new ExitProgram(6, "Exit Program");
     }
 
     /**
@@ -85,10 +85,10 @@ public class MenuTracker {
     /**
      * class AddItem implementing the first menu item
      */
-    private static class AddItem implements UserAction {
+    private static class AddItem extends BaseAction {
 
-        public int key() {
-            return 0;
+        public AddItem(int key, String name) {
+            super(key, name);
         }
 
         public void execute(Input input, Tracker tracker) {
@@ -97,37 +97,29 @@ public class MenuTracker {
                 tracker.add(item);
                 System.out.println("--------- New request with Id : " + item.getId() + " --------");
         }
-
-        public String info() {
-            return String.format("%s. %s", this.key(), "Add new Item");
-        }
     }
 
     /**
      * class ShowAllItems implementing the second menu item
      */
-    private static class ShowAllItems implements UserAction {
+    private static class ShowAllItems extends BaseAction {
 
-        public int key() {
-            return 1;
+        public ShowAllItems(int key, String name) {
+            super(key, name);
         }
 
         public void execute(Input input, Tracker tracker) {
             showItems(tracker.getAll());
-        }
-
-        public String info() {
-            return String.format("%s. %s", this.key(), "Show all items");
         }
     }
 
     /**
      * class EditItem implementing the third menu item
      */
-    private static class EditItem implements UserAction {
+    private static class EditItem extends BaseAction {
 
-        public int key() {
-            return 2;
+        public EditItem(int key, String name) {
+            super(key, name);
         }
 
         public void execute(Input input, Tracker tracker) {
@@ -143,19 +135,15 @@ public class MenuTracker {
                 System.out.println("The request for editing is not found!");
             }
         }
-
-        public String info() {
-            return String.format("%s. %s", this.key(), "Edit item");
-        }
     }
 
     /**
      * class DeleteItem implementing the fourth menu item
      */
-    private static class DeleteItem implements UserAction {
+    private static class DeleteItem extends BaseAction {
 
-        public int key() {
-            return 3;
+        public DeleteItem(int key, String name) {
+            super(key, name);
         }
 
         public void execute(Input input, Tracker tracker) {
@@ -168,19 +156,15 @@ public class MenuTracker {
                 System.out.println("The request for deletion is not found!");
             }
         }
-
-        public String info() {
-            return String.format("%s. %s", this.key(), "Delete item");
-        }
     }
 
     /**
      * class FindById implementing the fifth menu item
      */
-    private static class FindById implements UserAction {
+    private static class FindById extends BaseAction {
 
-        public int key() {
-            return 4;
+        public FindById(int key, String name) {
+            super(key, name);
         }
 
         public void execute(Input input, Tracker tracker) {
@@ -191,19 +175,15 @@ public class MenuTracker {
                 System.out.println("The request is not found!");
             }
         }
-
-        public String info() {
-            return String.format("%s. %s", this.key(), "Find item by Id");
-        }
     }
 
     /**
      * class FindByName implementing the sixth menu item
      */
-    private static class FindByName implements UserAction {
+    private static class FindByName extends BaseAction {
 
-        public int key() {
-            return 5;
+        public FindByName(int key, String name) {
+            super(key, name);
         }
 
         public void execute(Input input, Tracker tracker) {
@@ -214,27 +194,19 @@ public class MenuTracker {
                 System.out.println("The request is not found!");
             }
         }
-
-        public String info() {
-            return String.format("%s. %s", this.key(), "Find items by name");
-        }
     }
 
     /**
      * class ExitProgram implementing the seventh menu item
      */
-    private class ExitProgram implements UserAction {
+    private class ExitProgram extends BaseAction {
 
-        public int key() {
-            return 6;
+        public ExitProgram(int key, String name) {
+            super(key, name);
         }
 
         public void execute(Input input, Tracker tracker) {
             tracker.actual = false;
-        }
-
-        public String info() {
-            return String.format("%s. %s", this.key(), "Exit Program");
         }
     }
 }
