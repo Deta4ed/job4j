@@ -39,6 +39,34 @@ public class StartUITest {
     }
 
     @Test
+    public void whenInvalidInput() {
+        ValidateInput input = new ValidateInput(
+                new StubInput(new String[] {"invalid", "1"})
+        );
+        input.ask("Select:", new int[] {1});
+        assertThat(
+                this.out.toString(),
+                is(
+                        String.format("Please enter validate data again.%n")
+                )
+        );
+    }
+
+    @Test
+    public void whenOutOfRangeInput() {
+        ValidateInput input = new ValidateInput(
+                new StubInput(new String[] {"9", "1"})
+        );
+        input.ask("Select:", new int[] {1, 2, 3});
+        assertThat(
+                this.out.toString(),
+                is(
+                        String.format("Please select key from menu.%n")
+                )
+        );
+    }
+
+    @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
         Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});
         new StartUI(input, this.tracker).init();

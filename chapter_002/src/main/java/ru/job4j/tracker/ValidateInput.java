@@ -7,7 +7,23 @@ package ru.job4j.tracker;
  * version $id$
  * since 0.1
  */
-public class ValidateInput extends ConsoleInput {
+public class ValidateInput implements Input {
+    private final Input input;
+
+    public ValidateInput(final Input input) {
+        this.input = input;
+    }
+
+    /**
+     *
+     * @param question - question.
+     * @return - result of the ask method of the incoming parameter.
+     */
+    @Override
+    public String ask(String question) {
+        return this.input.ask(question);
+    }
+
     /**
      *
      * @param question - question.
@@ -20,12 +36,12 @@ public class ValidateInput extends ConsoleInput {
         int value = -1;
         do {
             try {
-                value = super.ask(question, range);
+                value = this.input.ask(question, range);
                 invalid = false;
             } catch (MenuOutException moe) {
-                System.out.println("Plese select key from menu.");
+                System.out.println("Please select key from menu.");
             } catch (NumberFormatException nfe) {
-                System.out.println("Plese enter validate data again.");
+                System.out.println("Please enter validate data again.");
             }
         } while (invalid);
         return  value;
