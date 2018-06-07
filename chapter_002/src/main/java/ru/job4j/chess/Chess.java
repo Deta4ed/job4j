@@ -46,10 +46,20 @@ public class Chess extends Application {
         Image img = new Image(this.getClass().getClassLoader().getResource(image).toString());
         rect.setFill(new ImagePattern(img));
         final Rectangle momento = new Rectangle(x, y);
+        final int[] dragged = new int[]{0};
         rect.setOnDragDetected(
             event -> {
                 momento.setX(event.getX());
                 momento.setY(event.getY());
+                dragged[0] = 1;
+            }
+        );
+        rect.setOnMouseClicked(
+            event -> {
+                if (dragged[0] == 0 && event.getX() > 40 && event.getX() < 360 && event.getY() > 40 && event.getY() < 360) {
+                    rect.setX(((int) event.getX() / 40) * 40 + 5);
+                    rect.setY(((int) event.getY() / 40) * 40 + 5);
+                }
             }
         );
         rect.setOnMouseDragged(
@@ -60,26 +70,24 @@ public class Chess extends Application {
         );
         rect.setOnMouseReleased(
             event -> {
-                boolean perhaps = false;
-                try {
-                    perhaps = board.move(this.findBy(momento.getX(), momento.getY()), this.findBy(event.getX(), event.getY()));
-                } catch (ImpossibleMoveException imv) {
-                    this.alertShow("Impossible move exception!");
-                } catch (OccupiedWayException owe) {
-                    this.alertShow("Occupied way exception!");
-                } catch (FigureNotFoundException fnfe) {
-                    this.alertShow("Figure not found exception!");
-                }
-                if (perhaps) {
-                    rect.setX(((int) event.getX() / 40) * 40 + 5);
-                    rect.setY(((int) event.getY() / 40) * 40 + 5);
-                } else {
-                    if (momento.getX() != 0) {
-                        rect.setX(((int) momento.getX() / 40) * 40 + 5);
-                        rect.setY(((int) momento.getY() / 40) * 40 + 5);
-                    } else {
+                if (dragged[0] == 1) {
+                    dragged[0] = 0;
+                    boolean perhaps = false;
+                    try {
+                        perhaps = board.move(this.findBy(momento.getX(), momento.getY()), this.findBy(event.getX(), event.getY()));
+                    } catch (ImpossibleMoveException imv) {
+                        this.alertShow("Impossible move exception!");
+                    } catch (OccupiedWayException owe) {
+                        this.alertShow("Occupied way exception!");
+                    } catch (FigureNotFoundException fnfe) {
+                        this.alertShow("Figure not found exception!");
+                    }
+                    if (perhaps) {
                         rect.setX(((int) event.getX() / 40) * 40 + 5);
                         rect.setY(((int) event.getY() / 40) * 40 + 5);
+                    } else {
+                        rect.setX(((int) momento.getX() / 40) * 40 + 5);
+                        rect.setY(((int) momento.getY() / 40) * 40 + 5);
                     }
                 }
             }
