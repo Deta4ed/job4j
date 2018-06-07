@@ -14,11 +14,10 @@ public class Bishop extends Figure {
     @Override
     public Cell[] way(Cell source, Cell dest) throws ImpossibleMoveException {
         Cell[] steps = new Cell[0];
-        int stepY; int stepX;
         if (source.x - dest.x == source.y - dest.y || source.x - dest.x == -(source.y - dest.y)) {
             steps = new Cell[source.x - dest.x > 0 ? source.x - dest.x : -(source.x - dest.x)];
-            stepX = source.x - dest.x > 0 ? -1 : 1;
-            stepY = source.x - dest.x == source.y - dest.y ? source.x - dest.x > 0 ? -1 : 1 : source.x - dest.x > 0 ? 1 : -1;
+            int stepX = source.x - dest.x > 0 ? -1 : 1;
+            int stepY = source.x - dest.x == source.y - dest.y ? source.x - dest.x > 0 ? -1 : 1 : source.x - dest.x > 0 ? 1 : -1;
             for (int index = 0; index != (source.x - dest.x > 0 ? source.x - dest.x : -(source.x - dest.x)); index++) {
                 steps[index] = Cell.findBy(source.x + index * stepX + stepX, source.y + index * stepY + stepY);
             }
