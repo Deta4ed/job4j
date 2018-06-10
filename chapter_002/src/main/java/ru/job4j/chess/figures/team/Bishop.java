@@ -13,17 +13,14 @@ public class Bishop extends Figure {
 
     @Override
     public Cell[] way(Cell source, Cell dest) throws ImpossibleMoveException {
-        Cell[] steps = new Cell[0];
-        if (source.x - dest.x == source.y - dest.y || source.x - dest.x == -(source.y - dest.y)) {
-            steps = new Cell[source.x - dest.x > 0 ? source.x - dest.x : -(source.x - dest.x)];
-            int stepX = source.x - dest.x > 0 ? -1 : 1;
-            int stepY = source.x - dest.x == source.y - dest.y ? source.x - dest.x > 0 ? -1 : 1 : source.x - dest.x > 0 ? 1 : -1;
-            for (int index = 0; index != (source.x - dest.x > 0 ? source.x - dest.x : -(source.x - dest.x)); index++) {
-                steps[index] = Cell.findBy(source.x + index * stepX + stepX, source.y + index * stepY + stepY);
-            }
-        }
-        if (steps.length == 0 && !source.equals(dest)) {
+        if (Math.abs(source.x - dest.x) != Math.abs(source.y - dest.y) || source.equals(dest)) {
             throw new ImpossibleMoveException("Impossible move exception!");
+        }
+        Cell[] steps = new Cell[Math.abs(source.x - dest.x)];
+        int stepX = Integer.compare(dest.x,source.x);
+        int stepY = Integer.compare(dest.y,source.y);
+        for (int index = 1; index <= Math.abs(source.x - dest.x); index++) {
+            steps[index - 1] = Cell.findBy(source.x + index * stepX, source.y + index * stepY);
         }
         return steps;
     }
