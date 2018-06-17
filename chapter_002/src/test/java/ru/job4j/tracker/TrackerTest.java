@@ -1,9 +1,12 @@
 package ru.job4j.tracker;
 
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.collection.IsArrayContainingInAnyOrder.arrayContainingInAnyOrder;
 
 public class TrackerTest {
 
@@ -16,8 +19,9 @@ public class TrackerTest {
         tracker.add(item1);
         tracker.add(item2);
         tracker.add(item3);
-        Item[] expect = new Item[] {item1, item2, item3};
-        assertThat(tracker.getAll(), arrayContainingInAnyOrder(expect));
+        List<Item> expect = new ArrayList<>();
+        expect.addAll(Arrays.asList(item1, item2, item3));
+        assertThat(tracker.getAll(), is(expect));
     }
 
     @Test
@@ -30,9 +34,11 @@ public class TrackerTest {
         tracker.add(item1);
         tracker.add(item2);
         tracker.add(item3);
-        Item[] expect = new Item[] {item1, item4, item3};
+        List<Item> expect = new ArrayList<>();
+        expect.addAll(Arrays.asList(item1, item3, item4));
+
         tracker.replace(item2.getId(), item4);
-        assertThat(tracker.getAll(), arrayContainingInAnyOrder(expect));
+        assertThat(tracker.getAll(), is(expect));
     }
 
     @Test
@@ -44,9 +50,10 @@ public class TrackerTest {
         tracker.add(item1);
         tracker.add(item2);
         tracker.add(item3);
-        Item[] expect = new Item[] {item1, item3};
+        List<Item> expect = new ArrayList<>();
+        expect.addAll(Arrays.asList(item1, item3));
         tracker.delete(item2.getId());
-        assertThat(tracker.getAll(), arrayContainingInAnyOrder(expect));
+        assertThat(tracker.getAll(), is(expect));
     }
 
     @Test
@@ -60,8 +67,9 @@ public class TrackerTest {
         tracker.add(item2);
         tracker.add(item3);
         tracker.add(item4);
-        Item[] expect = new Item[] {item1, item2, item3};
-        assertThat(tracker.findByName("test1"), arrayContainingInAnyOrder(expect));
+        List<Item> expect = new ArrayList<>();
+        expect.addAll(Arrays.asList(item1, item2, item3));
+        assertThat(tracker.findByName("test1"), is(expect));
     }
 
     @Test

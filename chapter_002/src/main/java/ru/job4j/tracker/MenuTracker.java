@@ -2,6 +2,8 @@ package ru.job4j.tracker;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * MenuTracker.
@@ -13,13 +15,12 @@ import java.util.Date;
 public class MenuTracker {
     private Input input;
     private Tracker tracker;
-    private UserAction[] actions;
+    private List<UserAction> actions = new ArrayList<>();
     private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
     public MenuTracker(Input input, Tracker tracker) {
         this.input = input;
         this.tracker = tracker;
-        this.actions = new UserAction[7];
         this.init();
     }
 
@@ -27,22 +28,22 @@ public class MenuTracker {
      * Initialization.
      */
     private void init() {
-        this.actions[0] = new AddItem(0, "Add new Item");
-        this.actions[1] = new ShowAllItems(1, "Show all items");
-        this.actions[2] = new EditItem(2, "Edit item");
-        this.actions[3] = new DeleteItem(3, "Delete item");
-        this.actions[4] = new FindById(4, "Find item by Id");
-        this.actions[5] = new FindByName(5, "Find items by name");
-        this.actions[6] = new ExitProgram(6, "Exit Program");
+        this.actions.add(new AddItem(0, "Add new Item"));
+        this.actions.add(new ShowAllItems(1, "Show all items"));
+        this.actions.add(new EditItem(2, "Edit item"));
+        this.actions.add(new DeleteItem(3, "Delete item"));
+        this.actions.add(new FindById(4, "Find item by Id"));
+        this.actions.add(new FindByName(5, "Find items by name"));
+        this.actions.add(new ExitProgram(6, "Exit Program"));
     }
 
     /**
      *  select - executes the menu item.
-     * @param key - index menu item in array actions.
+     * @param key - key menu item in map actions.
      */
 
     public void select(int key) {
-        this.actions[key].execute(this.input, this.tracker);
+        this.actions.get(key).execute(this.input, this.tracker);
     }
 
     /**
@@ -71,7 +72,7 @@ public class MenuTracker {
      * Show all items.
      * @param items - array items.
      */
-    private static void showItems(Item[] items) {
+    private static void showItems(List<Item> items) {
         for (Item item : items) {
             System.out.println("");
             System.out.println("------------ Request ID : " + item.getId() + " --------------");
@@ -170,7 +171,9 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             Item item = tracker.findById(input.ask("Input the ID of the request for search :"));
             if (item != null) {
-                showItems(new Item[] {item});
+                List<Item> result = new ArrayList<>();
+                result.add(item);
+                showItems(result);
             } else {
                 System.out.println("The request is not found!");
             }
@@ -187,8 +190,8 @@ public class MenuTracker {
         }
 
         public void execute(Input input, Tracker tracker) {
-            Item[] items = tracker.findByName(input.ask("Input the name of the request for search :"));
-            if (items.length != 0) {
+            List<Item> items = tracker.findByName(input.ask("Input the name of the request for search :"));
+            if (items.size() != 0) {
                 showItems(items);
             } else {
                 System.out.println("The request is not found!");
