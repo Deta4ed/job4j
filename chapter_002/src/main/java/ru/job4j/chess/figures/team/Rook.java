@@ -15,8 +15,8 @@ public class Rook extends Figure {
         if (source.x != dest.x && source.y != dest.y || source.equals(dest)) {
             throw new ImpossibleMoveException("Impossible move exception!");
         }
-        int stepX = Integer.compare(dest.x,source.x);
-        int stepY = Integer.compare(dest.y,source.y);
+        int stepX = Integer.compare(dest.x, source.x);
+        int stepY = Integer.compare(dest.y, source.y);
         int count = Math.abs(source.x - dest.x) > Math.abs(source.y - dest.y) ? Math.abs(source.x - dest.x) : Math.abs(source.y - dest.y);
         Cell[] steps = new Cell[count];
         for (int index = 1; index <= count; index++) {

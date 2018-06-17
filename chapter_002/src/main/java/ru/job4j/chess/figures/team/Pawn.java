@@ -23,7 +23,7 @@ public class Pawn extends Figure {
             throw new ImpossibleMoveException("Impossible move exception!");
         }
         Cell[] steps = new Cell[Math.abs(source.y - dest.y)];
-        int stepY = Integer.compare(dest.y,source.y);
+        int stepY = Integer.compare(dest.y, source.y);
         for (int index = 1; index <= Math.abs(source.y - dest.y); index++) {
             steps[index - 1] = Cell.findBy(source.x, source.y + index * stepY);
         }
