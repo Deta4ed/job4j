@@ -5,23 +5,10 @@ import ru.job4j.ArraySort;
 import java.util.Arrays;
 
 public class ParserBrace {
-    private final char[][] target;
+    private final Pair pair;
 
-    public ParserBrace() {
-        this.target = new char[][]{
-                {'{', '}'},
-                {'[', ']'},
-                {'(', ')'}
-        };
-    }
-
-    public ParserBrace(char[][] target) {
-        for (int i = 0; i != target.length; i++) {
-            if (target[i].length != 2) {
-                throw new ArrayStoreException("Invalid array format!");
-            }
-        }
-        this.target = target;
+    public ParserBrace(Pair pair) {
+        this.pair = pair;
     }
 
     /**
@@ -31,13 +18,14 @@ public class ParserBrace {
      */
     public int[][] parcer(String str) {
         return this.validate(
-                this.fallowing(
-                        this.decompression(
-                                this.getArrayAllElements(
-                                        str.toCharArray()
-                                )
-                        )
-                ));
+            this.fallowing(
+                this.decompression(
+                    this.getArrayAllElements(
+                            str.toCharArray()
+                    )
+                )
+            )
+        );
     }
 
     /**
@@ -82,7 +70,7 @@ public class ParserBrace {
         }
         int[][] result = new int[count / 2][2];
         count = 0;
-        for (int index = 0; index != target.length; index++) {
+        for (int index = 0; index != pair.getTarget().length; index++) {
             for (int i = 0; i != covers[index + index].length; i++) {
                 for (int j = 0; j != covers[index + index + 1].length; j++) {
                     if (covers[index + index][i] < covers[index + index + 1][j]) {
@@ -104,8 +92,8 @@ public class ParserBrace {
      * @return - array of arrays by signs.
      */
     private int[][] decompression(int[][] source) {
-        int[][] result = new int[this.target.length * this.target[0].length][];
-        for (int index = 0; index != target.length; index++) {
+        int[][] result = new int[pair.getTarget().length * pair.getTarget()[0].length][];
+        for (int index = 0; index != pair.getTarget().length; index++) {
             int[] i = new int[source.length];
             int[] j = new int[source.length];
             int countI = 0;
@@ -135,9 +123,9 @@ public class ParserBrace {
         int[][] result = new int[source.length + 1][2];
         int count = 0;
         for (int index = 0; index != source.length; index++) {
-            for (int j = 0; j != target.length; j++) {
-                for (int i = 0; i != target[0].length; i++) {
-                    if (source[index] == target[j][i]) {
+            for (int j = 0; j != pair.getTarget().length; j++) {
+                for (int i = 0; i != pair.getTarget()[0].length; i++) {
+                    if (source[index] == pair.getTarget()[j][i]) {
                         result[count][0] = i + j + j;
                         result[count][1] = index;
                         count++;
