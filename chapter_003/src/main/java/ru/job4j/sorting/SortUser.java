@@ -8,8 +8,7 @@ import java.util.TreeSet;
 public class SortUser {
 
     public static Set<User> sort(List<User> userList) {
-        Set<User> users = new TreeSet<>(userList);
-        return users;
+        return new TreeSet<>(userList);
     }
 
     public static List<User> sortNameLength(List<User> userList) {
