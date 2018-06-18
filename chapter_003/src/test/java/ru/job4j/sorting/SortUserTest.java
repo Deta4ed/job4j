@@ -19,4 +19,32 @@ public class SortUserTest {
         Iterator<User> it = result.iterator();
         assertThat("Ivan", is(it.next().getName()));
     }
+
+    @Test
+    public void whenSortUsersByNameLeghtThenFirsUserIvan() {
+        List<User> users = new ArrayList<>();
+        users.addAll(Arrays.asList(
+                new User("Vitaly", 32),
+                new User("Ivan", 28),
+                new User("Michael", 28)));
+        List<User> result = SortUser.sortNameLength(users);
+        Iterator<User> it = result.iterator();
+        assertThat("Ivan", is(it.next().getName()));
+    }
+
+    @Test
+    public void whenSortUsersByAllFiledsThenFirsUserIvan() {
+        List<User> users = new ArrayList<>();
+        users.addAll(Arrays.asList(
+                new User("Vitaly", 32),
+                new User("Ivan", 28),
+                new User("Ivan", 27),
+                new User("Michael", 28)));
+        List<User> result = SortUser.sortByAllFields(users);
+        Iterator<User> it = result.iterator();
+        User user = it.next();
+        assertThat("Ivan", is(user.getName()));
+        assertThat(27, is(user.getAge()));
+    }
+
 }
