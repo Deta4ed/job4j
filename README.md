@@ -1,3 +1,3 @@
+[![codecov](https://codecov.io/gh/Deta4ed/job4j/branch/master/graph/badge.svg)](https://codecov.io/gh/Deta4ed/job4j)
 # job4j
-http://job4j.ru/
-Научиться коммитить 05.05.2018 
+Начальный проект для курса 
