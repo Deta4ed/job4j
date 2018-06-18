@@ -68,7 +68,8 @@ public class ParserBrace {
         for (int index = 0; index != covers.length; index++) {
             count += covers[index].length;
         }
-        int[][] result = new int[count / 2][2];
+        int need = count / 2;
+        int[][] result = new int[need][2];
         count = 0;
         for (int index = 0; index != pair.getTarget().length; index++) {
             for (int i = 0; i != covers[index + index].length; i++) {
