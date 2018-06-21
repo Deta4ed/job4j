@@ -27,7 +27,7 @@ public class BankTest {
         bank.addAccountToUser("124640", account);
         bank.deleteAccountFromUser("124640", account);
         Account result = bank.getUserAccountByRequisite("124640", "28600978");
-        assertThat(result, is(new Account()));
+        assertThat(result, is(Account.ACCOUNT_NOT_EXIST));
     }
     @Test
     public void whenDeleteUserThenAccountIsAbsent() {
@@ -38,7 +38,7 @@ public class BankTest {
         bank.addAccountToUser("124640", account);
         bank.deleteUser(user);
         Account result = bank.getUserAccountByRequisite("124640", "28600978");
-        assertThat(result, is(new Account()));
+        assertThat(result, is(Account.ACCOUNT_NOT_EXIST));
     }
 
     @Test

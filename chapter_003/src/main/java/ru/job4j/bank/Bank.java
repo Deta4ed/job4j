@@ -71,17 +71,18 @@ public class Bank {
 
     /**
      * Returns user account.
-     * @param Passport
-     * @param requisite
+     * @param passport - passport.
+     * @param requisite - requisite.
      * @return - user account.
      */
     public Account getUserAccountByRequisite(String passport, String requisite) {
-        Account account = new Account();
-        Account accountReq = new Account(requisite);
+        Account account = Account.ACCOUNT_NOT_EXIST;
         List<Account> accounts = getUserAccounts(passport);
-        int index = accounts.indexOf(accountReq);
-        if (index > -1) {
-            account = accounts.get(accounts.indexOf(accountReq));
+        for (Account current : accounts) {
+            if (current.getRequisites().equals(requisite)) {
+                account = current;
+                break;
+            }
         }
         return account;
     }
@@ -99,7 +100,7 @@ public class Bank {
         boolean perhaps = false;
         Account srcAccount = getUserAccountByRequisite(srcPassport, srcRequisite);
         Account destAccount = getUserAccountByRequisite(destPassport, dstRequisite);
-        if (amount > 0D && !destAccount.equals(new Account()) && srcAccount.getValue() >= amount) {
+        if (amount > 0D && !destAccount.equals(Account.ACCOUNT_NOT_EXIST) && srcAccount.getValue() >= amount) {
             srcAccount.addValue(-amount);
             destAccount.addValue(amount);
             perhaps = true;
