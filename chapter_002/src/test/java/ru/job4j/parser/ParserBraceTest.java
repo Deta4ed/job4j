@@ -1,7 +1,7 @@
 package ru.job4j.parser;
 
 import org.junit.Test;
-
+import java.util.List;
 import static org.hamcrest.collection.IsArrayContainingInAnyOrder.arrayContainingInAnyOrder;
 import static org.junit.Assert.assertThat;
 
@@ -25,7 +25,9 @@ public class ParserBraceTest {
                 {1, 3},
                 {7, 21}
         };
-        int[][] result = new ParserBrace(new Pair()).parcer("{{ }m{a[b[{c{]fg}}d)e]} {}");
+        List<int[]> listResult = new ParserBrace(new Pair()).parcer("{{ }m{a[b[{c{]fg}}d)e]} {}");
+        int[][] result = new int[listResult.size()][];
+        listResult.toArray(result);
         assertThat(result, arrayContainingInAnyOrder(expect));
     }
 
@@ -37,7 +39,9 @@ public class ParserBraceTest {
         int[][] expect = new int[][] {
                 {2, 23}
         };
-        int[][] result = new ParserBrace(new Pair(target)).parcer("{{ }m{a[b[{c{]fg}}d)e]} {}");
+        List<int[]> listResult = new ParserBrace(new Pair(target)).parcer("{{ }m{a[b[{c{]fg}}d)e]} {}");
+        int[][] result = new int[listResult.size()][];
+        listResult.toArray(result);
         assertThat(result, arrayContainingInAnyOrder(expect));
     }
 }

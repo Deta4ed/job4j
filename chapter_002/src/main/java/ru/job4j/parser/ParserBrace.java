@@ -1,8 +1,8 @@
 package ru.job4j.parser;
 
-import ru.job4j.ArraySort;
-
-import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Stack;
 
 public class ParserBrace {
     private final Pair pair;
@@ -16,11 +16,11 @@ public class ParserBrace {
      * @param str
      * @return - array of all pairs of parentheses with positions.
      */
-    public int[][] parcer(String str) {
+    public List<int[]> parcer(String str) {
         return this.validate(
             this.fallowing(
                 this.decompression(
-                    this.getArrayAllElements(
+                    this.getAllElements(
                             str.toCharArray()
                     )
                 )
@@ -31,86 +31,69 @@ public class ParserBrace {
     /**
      * Validate.
      * @param source - array of paired braces.
-     * @return - array of all pairs of parentheses with positions.
+     * @return - list of all pairs of parentheses with positions.
      */
-    private int[][] validate(int[][] source) {
-        int count = 0;
+    private List<int[]> validate(List<int[]> source) {
+        List<int[]> result = new ArrayList<>();
         boolean valid;
-        int[][] result = new int[source.length][2];
-        for (int i = 0; i != source.length; i++) {
+        for (int[] braceOne : source) {
             valid = true;
-            for (int j = 0; j != source.length; j++) {
-                if (source[i][0] < source[j][0]
-                        && source[i][1] < source[j][1]
-                        && source[i][1] > source[j][0]
-                        || source[i][0] > source[j][0]
-                        && source[i][1] > source[j][1]
-                        && source[i][0] < source[j][1]) {
+            for (int[] braceTwo : source) {
+                if (braceOne[0] < braceTwo[0]
+                        && braceOne[1] < braceTwo[1]
+                        && braceOne[1] > braceTwo[0]
+                        || braceOne[0] > braceTwo[0]
+                        && braceOne[1] > braceTwo[1]
+                        && braceOne[0] < braceTwo[1]) {
                     valid = false;
                 }
             }
             if (valid) {
-                result[count][0] = source[i][0];
-                result[count][1] = source[i][1];
-                count++;
+                result.add(braceOne);
             }
         }
-        return Arrays.copyOf(result, count);
+        return result;
     }
 
     /**
      *
      * @param covers - array of arrays by signs.
-     * @return - array of paired braces.
+     * @return - list of paired braces.
      */
-    private int[][] fallowing(int[][] covers) {
-        int count = 0;
-        for (int index = 0; index != covers.length; index++) {
-            count += covers[index].length;
-        }
-        int need = count / 2;
-        int[][] result = new int[need][2];
-        count = 0;
+    private List<int[]> fallowing(Stack<Integer>[] covers) {
+        List<int[]> list = new ArrayList<>();
         for (int index = 0; index != pair.getTarget().length; index++) {
-            for (int i = 0; i != covers[index + index].length; i++) {
-                for (int j = 0; j != covers[index + index + 1].length; j++) {
-                    if (covers[index + index][i] < covers[index + index + 1][j]) {
-                        result[count][0] = covers[index + index][i];
-                        result[count][1] = covers[index + index + 1][j];
-                        covers[index + index + 1][j] = 0;
-                        count++;
+            while (!covers[index + index].empty()) {
+                boolean exist = false;
+                for (Integer cell : covers[index + index + 1]) {
+                    if (!covers[index + index].empty() && covers[index + index].peek() < cell) {
+                        list.add(new int[]{covers[index + index].pop(), cell});
+                        covers[index + index + 1].removeElement(cell);
+                        exist = true;
                         break;
                     }
                 }
+                if (!exist) {
+                    covers[index + index].pop();
+                }
             }
         }
-        return Arrays.copyOf(result, count);
+        return list;
     }
 
     /**
      * Parses an array of occurrences of arrays in brackets.
      * @param source - array of all occurrences.
-     * @return - array of arrays by signs.
+     * @return - stacks by signs.
      */
-    private int[][] decompression(int[][] source) {
-        int[][] result = new int[pair.getTarget().length * pair.getTarget()[0].length][];
-        for (int index = 0; index != pair.getTarget().length; index++) {
-            int[] i = new int[source.length];
-            int[] j = new int[source.length];
-            int countI = 0;
-            int countJ = 0;
-            for (int count = 0; count != source.length; count++) {
-                if (source[count][0] == index + index) {
-                    i[countI] = source[count][1];
-                    countI++;
-                }
-                if (source[count][0] == index + index + 1) {
-                    j[countJ] = source[count][1];
-                    countJ++;
-                }
-            }
-            result[index + index] = ArraySort.sortArray(Arrays.copyOf(i, countI), -1);
-            result[index + index + 1] = ArraySort.sortArray(Arrays.copyOf(j, countJ), 1);
+    private Stack<Integer>[] decompression(List<int[]> source) {
+        @SuppressWarnings("unchecked")
+        Stack<Integer>[] result = (Stack<Integer>[]) new Stack[pair.getTarget().length * pair.getTarget()[0].length];
+        for (int index = 0; index != result.length; index++) {
+            result[index] = new Stack<Integer>();
+        }
+        for (int[] brace : source) {
+            result[brace[0]].add(brace[1]);
         }
         return result;
     }
@@ -118,22 +101,19 @@ public class ParserBrace {
     /**
      * Parses an array of all occurrences.
      * @param source - char array.
-     * @return - array of all occurrences.
+     * @return - list of all occurrences.
      */
-    private int[][] getArrayAllElements(char[] source) {
-        int[][] result = new int[source.length + 1][2];
-        int count = 0;
+    private List<int[]> getAllElements(char[] source) {
+        List<int[]> list = new ArrayList<>();
         for (int index = 0; index != source.length; index++) {
             for (int j = 0; j != pair.getTarget().length; j++) {
                 for (int i = 0; i != pair.getTarget()[0].length; i++) {
                     if (source[index] == pair.getTarget()[j][i]) {
-                        result[count][0] = i + j + j;
-                        result[count][1] = index;
-                        count++;
+                        list.add(new int[] {i + j + j, index});
                     }
                 }
             }
         }
-        return Arrays.copyOf(result, count);
+        return list;
     }
 }
