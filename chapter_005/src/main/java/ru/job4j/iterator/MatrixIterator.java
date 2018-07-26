@@ -12,7 +12,6 @@ import java.util.NoSuchElementException;
  */
 public class MatrixIterator implements Iterator {
     private final int[][] values;
-    private int result;
     private int i = 0;
     private int j = 0;
 
@@ -30,7 +29,7 @@ public class MatrixIterator implements Iterator {
         if (i == values.length) {
             throw new NoSuchElementException();
         }
-        result = values[i][j];
+        int result = values[i][j];
         if (j == values[i].length - 1) {
             i++;
             j = 0;
