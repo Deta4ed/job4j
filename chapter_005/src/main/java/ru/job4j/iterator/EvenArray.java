@@ -24,11 +24,7 @@ public class EvenArray implements Iterable {
 
     class EvenArrayIterator implements Iterator {
         private int index = -1;
-        private int result;
-
-        EvenArrayIterator() {
-            index = hasNextEvenNumbersIndex();
-        }
+        private boolean init = false;
 
         private int hasNextEvenNumbersIndex() {
             int result = -1;
@@ -43,15 +39,23 @@ public class EvenArray implements Iterable {
 
         @Override
         public boolean hasNext() {
+            if (!init) {
+                index = hasNextEvenNumbersIndex();
+                init = true;
+            }
             return index != -1;
         }
 
         @Override
         public Object next() {
+            if (!init) {
+                index = hasNextEvenNumbersIndex();
+                init = true;
+            }
             if (index == -1) {
                 throw new NoSuchElementException();
             }
-            result = numbers[index];
+            int result = numbers[index];
             index = hasNextEvenNumbersIndex();
             return result;
         }
