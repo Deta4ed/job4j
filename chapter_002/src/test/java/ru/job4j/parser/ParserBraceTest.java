@@ -30,18 +30,4 @@ public class ParserBraceTest {
         listResult.toArray(result);
         assertThat(result, arrayContainingInAnyOrder(expect));
     }
-
-    @Test
-    public void whenParserAnyCharThen() {
-        char[][] target = new char[][]{
-                {' ', ' '}
-        };
-        int[][] expect = new int[][] {
-                {2, 23}
-        };
-        List<int[]> listResult = new ParserBrace(new Pair(target)).parcer("{{ }m{a[b[{c{]fg}}d)e]} {}");
-        int[][] result = new int[listResult.size()][];
-        listResult.toArray(result);
-        assertThat(result, arrayContainingInAnyOrder(expect));
-    }
 }
