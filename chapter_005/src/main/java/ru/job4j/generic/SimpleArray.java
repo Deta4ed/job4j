@@ -47,6 +47,10 @@ public class SimpleArray<T> implements Iterable<T> {
         position--;
     }
 
+    public int size() {
+        return position;
+    }
+
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
