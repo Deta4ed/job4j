@@ -12,9 +12,9 @@ import java.util.NoSuchElementException;
  * since 0.1
  */
 public class DynamicLinked<T> implements  Iterable<T> {
-    private int size;
+    protected int size;
     private int modCount;
-    private Node<T> header;
+    protected Node<T> header;
 
     public DynamicLinked() {
         header = new Node<>(null, null, null);
@@ -77,7 +77,7 @@ public class DynamicLinked<T> implements  Iterable<T> {
         };
     }
 
-    private static class Node<T> {
+    protected static class Node<T> {
         T item;
         Node<T> next;
         Node<T> prev;
