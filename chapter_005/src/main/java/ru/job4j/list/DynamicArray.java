@@ -18,10 +18,14 @@ public class DynamicArray<T> implements Iterable<T> {
     private int modCount;
     private Object[] container = new Object[size];
 
+    private void resize() {
+        size *= 2;
+        this.container = Arrays.copyOf(this.container, size);
+    }
+
     public void add(T object) {
         if (position == size) {
-            size *= 2;
-            this.container = Arrays.copyOf(this.container, size);
+            resize();
         }
         this.container[position++] = object;
         this.modCount++;
