@@ -14,10 +14,7 @@ public class SimpleQueue<T> extends DynamicLinked<T> {
     }
 
     public T poll() {
-        Node<T> first = this.header.next;
-        this.header.next = first.next;
-        this.size--;
-        return first.item;
+        return super.deleteFirst();
     }
 
     public void push(T value) {

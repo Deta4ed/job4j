@@ -12,9 +12,9 @@ import java.util.NoSuchElementException;
  * since 0.1
  */
 public class DynamicLinked<T> implements  Iterable<T> {
-    protected int size;
+    private int size;
     private int modCount;
-    protected Node<T> header;
+    private Node<T> header;
 
     public DynamicLinked() {
         header = new Node<>(null, null, null);
@@ -37,6 +37,21 @@ public class DynamicLinked<T> implements  Iterable<T> {
         if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException();
         }
+    }
+
+    public T deleteFirst() {
+        Node<T> first = this.header.next;
+        this.header.next = first.next;
+        this.size--;
+        return first.item;
+    }
+
+    public T deleteLast() {
+        Node<T> last = this.header.prev;
+        this.header.prev = last.prev;
+        this.header.prev.next = header;
+        this.size--;
+        return last.item;
     }
 
     public T get(int index) {
@@ -77,7 +92,7 @@ public class DynamicLinked<T> implements  Iterable<T> {
         };
     }
 
-    protected static class Node<T> {
+    private static class Node<T> {
         T item;
         Node<T> next;
         Node<T> prev;

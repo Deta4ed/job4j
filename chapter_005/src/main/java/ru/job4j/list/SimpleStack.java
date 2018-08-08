@@ -14,11 +14,7 @@ public class SimpleStack<T> extends DynamicLinked<T> {
     }
 
     public T poll() {
-        Node<T> last = this.header.prev;
-        this.header.prev = last.prev;
-        this.header.prev.next = header;
-        this.size--;
-        return last.item;
+        return super.deleteLast();
     }
 
     public void push(T value) {
