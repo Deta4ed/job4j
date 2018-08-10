@@ -38,6 +38,18 @@ public class DynamicArray<T> implements Iterable<T> {
         return (T) this.container[index];
     }
 
+    public boolean contains(T value) {
+        for (Object item : container) {
+            if (item == null) {
+                break;
+            }
+            if (item.equals(value)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public int size() {
         return position;
     }
