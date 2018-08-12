@@ -9,7 +9,7 @@ import java.util.Map;
 public class UserTest {
 
     @Test
-    public void whenAddUsersToMapWithoutOverrideHashCodeThenTwoElement() {
+    public void whenAddTwoUsersToMapThenOneElement() {
         User user = new User("Vic", 1, new GregorianCalendar(1900, 11, 30));
         User user1 = new User("Vic", 1, new GregorianCalendar(1900, 11, 30));
         Map<User, Object> map = new HashMap<>();
