@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserTest {
+
     @Test
     public void whenAddUsersToMapWithoutOverrideHashCodeThenTwoElement() {
         User user = new User("Vic", 1, new GregorianCalendar(1900, 11, 30));
