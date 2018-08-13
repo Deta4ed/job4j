@@ -8,6 +8,18 @@ public final class User {
     private final int children;
     private final Calendar birthday;
 
+    public String getName() {
+        return name;
+    }
+
+    public int getChildren() {
+        return children;
+    }
+
+    public Calendar getBirthday() {
+        return birthday;
+    }
+
     public User(String name, int children, Calendar birthday) {
         this.name = name;
         this.children = children;
