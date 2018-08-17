@@ -18,6 +18,23 @@ public class Tree<T extends Comparable<T>> implements SimpleTree<T> {
         this.root = new Node<T>(value);
     }
 
+    public boolean isBinary() {
+        boolean result = true;
+        Queue<Node<T>> data = new LinkedList<>();
+        data.offer(root);
+        while (!data.isEmpty()) {
+            Node<T> item = data.poll();
+            for (Node<T> child: item.leaves()) {
+                data.offer(child);
+            }
+            if (item.leaves().size() > 2) {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+
     @Override
     public boolean add(T parent, T child) {
         boolean result = false;
