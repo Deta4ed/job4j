@@ -1,7 +1,5 @@
 package ru.job4j.storage;
 
-import net.jcip.annotations.GuardedBy;
-import net.jcip.annotations.ThreadSafe;
 import java.util.Objects;
 
 /**
@@ -11,23 +9,20 @@ import java.util.Objects;
  * version $id$
  * since 0.1
  */
-@ThreadSafe
-public class User {
-    @GuardedBy("this")
-    private int id;
-    @GuardedBy("this")
-    private int amount;
+public final class User {
+    private final int id;
+    private final int amount;
 
     public User(int id, int amount) {
         this.id = id;
         this.amount = amount;
     }
 
-    public synchronized int getId() {
+    public int getId() {
         return id;
     }
 
-    public synchronized int getAmount() {
+    public int getAmount() {
         return amount;
     }
 
