@@ -2,12 +2,11 @@ package ru.job4j.pool;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.LinkedBlockingQueue;
+import ru.job4j.blocking.SimpleBlockingQueue;
 
 public class ThreadPool {
     private final List<Thread> threads = new ArrayList<>();
-    private final Queue<Work> tasks = new LinkedBlockingQueue<>();
+    private final SimpleBlockingQueue<Work> tasks = new SimpleBlockingQueue<>(10);
     private List<Integer> completedTasks = new ArrayList<>();
 
     public  ThreadPool() {
@@ -17,7 +16,12 @@ public class ThreadPool {
                 synchronized (this) {
                     while (!Thread.currentThread().isInterrupted()) {
                         while (!tasks.isEmpty()) {
-                            Work current = tasks.poll();
+                            Work current = null;
+                            try {
+                                current = tasks.poll();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                             completedTasks.add(current.getIndex());
                             current.run();
                         }
@@ -49,7 +53,7 @@ public class ThreadPool {
         return threads;
     }
 
-    public Queue<Work> getTasks() {
+    public SimpleBlockingQueue<Work> getTasks() {
         return tasks;
     }
 
