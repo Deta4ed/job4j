@@ -13,23 +13,15 @@ public class ThreadPool {
         int maxSize = Runtime.getRuntime().availableProcessors();
         for (int index = 0; index != maxSize; index++) {
             Thread thread = new Thread(() -> {
-                synchronized (this) {
-                    while (!Thread.currentThread().isInterrupted()) {
-                        while (!tasks.isEmpty()) {
-                            Work current = null;
-                            try {
-                                current = tasks.poll();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            completedTasks.add(current.getIndex());
+                while (!Thread.currentThread().isInterrupted()) {
+                    try {
+                        Work current = tasks.poll();
+                        if (current != null) {
                             current.run();
+                            completedTasks.add(current.getIndex());
                         }
-                        try {
-                            this.wait();
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
             });
@@ -38,9 +30,8 @@ public class ThreadPool {
         }
     }
 
-    public synchronized void work(Work work) {
+    public void work(Work work) {
         tasks.offer(work);
-        this.notifyAll();
     }
 
     public void shutdown() {
