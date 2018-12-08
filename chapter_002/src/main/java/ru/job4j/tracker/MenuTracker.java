@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 /**
  * MenuTracker.
@@ -49,11 +50,11 @@ public class MenuTracker {
     /**
      * ShowMenu - show all items menu.
      */
-    public void showMenu() {
-        System.out.println("Menu:");
+    public void showMenu(Consumer<String> consumer) {
+        consumer.accept("Menu:");
         for (UserAction action : this.actions) {
             if (action != null) {
-                System.out.println(action.info());
+                consumer.accept(action.info());
             }
         }
     }

@@ -23,7 +23,7 @@ public class StartUI {
     public void init() {
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
         while (this.tracker.actual) {
-            menu.showMenu();
+            menu.showMenu(System.out::println);
             menu.select(this.input.ask("Select: ", range));
         }
     }
