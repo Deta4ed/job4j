@@ -1,9 +1,6 @@
 package ru.job4j.bank;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Bank.
@@ -59,14 +56,8 @@ public class Bank {
      * @return - list of user accounts.
      */
     public List<Account> getUserAccounts(String passport) {
-        List<Account> accounts = new ArrayList<>();
-        for (Map.Entry<User, List<Account>> entry : registry.entrySet()) {
-            if (passport.equals(entry.getKey().getPassport())) {
-                accounts = entry.getValue();
-                break;
-            }
-        }
-        return accounts;
+        Map.Entry<User, List<Account>> empty = new AbstractMap.SimpleEntry<>(null, new ArrayList<>());
+        return registry.entrySet().stream().filter(entry -> entry.getKey().getPassport().equals(passport)).findFirst().orElse(empty).getValue();
     }
 
     /**
@@ -77,14 +68,7 @@ public class Bank {
      */
     public Account getUserAccountByRequisite(String passport, String requisite) {
         Account account = Account.ACCOUNT_NOT_EXIST;
-        List<Account> accounts = getUserAccounts(passport);
-        for (Account current : accounts) {
-            if (current.getRequisites().equals(requisite)) {
-                account = current;
-                break;
-            }
-        }
-        return account;
+        return getUserAccounts(passport).stream().filter(item -> item.getRequisites().equals(requisite)).findFirst().orElse(account);
     }
 
     /**
