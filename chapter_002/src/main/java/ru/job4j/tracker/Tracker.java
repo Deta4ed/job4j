@@ -3,6 +3,8 @@ package ru.job4j.tracker;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Tracker.
@@ -70,13 +72,7 @@ public class Tracker {
      * @return - array items.
      */
     public List<Item> findByName(String key) {
-        List<Item> result = new ArrayList<>();
-        for (Item item : this.itemsList) {
-            if (item.getName().equals(key)) {
-                result.add(item);
-            }
-        }
-        return result;
+        return findBy(item -> item.getName().equals(key));
     }
 
     /**
@@ -87,13 +83,20 @@ public class Tracker {
      */
     public Item findById(String id) {
         Item result = null;
-        for (Item item : this.itemsList) {
-            if (item != null && item.getId().equals(id)) {
-                result = item;
-                break;
-            }
+        List<Item> items = findBy(item -> item.getId().equals(id));
+        if (!items.isEmpty()) {
+            result = items.get(0);
         }
         return result;
+    }
+
+    /**
+     *
+     * @param condition - predicate
+     * @return - list items.
+     */
+    private List<Item> findBy(Predicate<Item> condition) {
+        return this.itemsList.stream().filter(condition).collect(Collectors.toList());
     }
 
     /**
