@@ -12,7 +12,6 @@ import java.util.Objects;
 public class Account {
     private final String requisites;
     private Double value = 0D;
-    public static final Account ACCOUNT_NOT_EXIST = new Account();
 
     private Account() {
         this.requisites = "";

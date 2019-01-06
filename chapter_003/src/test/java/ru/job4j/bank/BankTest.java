@@ -1,9 +1,9 @@
 package ru.job4j.bank;
 
-import org.junit.Before;
 import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class BankTest {
 
@@ -14,8 +14,8 @@ public class BankTest {
         Account account = new Account("28600900");
         bank.addUser(user);
         bank.addAccountToUser("125125", account);
-        Account result = bank.getUserAccountByRequisite("125125", "28600900");
-        assertThat(result, is(account));
+        assertTrue(bank.getUserAccount("125125", "28600900").isPresent());
+        assertThat(bank.getUserAccount("125125", "28600900").get(), is(account));
     }
 
     @Test
@@ -26,9 +26,9 @@ public class BankTest {
         bank.addUser(user);
         bank.addAccountToUser("124640", account);
         bank.deleteAccountFromUser("124640", account);
-        Account result = bank.getUserAccountByRequisite("124640", "28600978");
-        assertThat(result, is(Account.ACCOUNT_NOT_EXIST));
+        assertTrue(!bank.getUserAccount("124640", "28600978").isPresent());
     }
+
     @Test
     public void whenDeleteUserThenAccountIsAbsent() {
         Bank bank = new Bank();
@@ -37,8 +37,7 @@ public class BankTest {
         bank.addUser(user);
         bank.addAccountToUser("124640", account);
         bank.deleteUser(user);
-        Account result = bank.getUserAccountByRequisite("124640", "28600978");
-        assertThat(result, is(Account.ACCOUNT_NOT_EXIST));
+        assertTrue(!bank.getUserAccount("124640", "28600978").isPresent());
     }
 
     @Test

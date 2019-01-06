@@ -34,9 +34,9 @@ public class Bank {
      * @param account - account.
      */
     public void addAccountToUser(String passport, Account account) {
-        List<Account> accounts = getUserAccounts(passport);
-        if (!accounts.contains(account)) {
-            accounts.add(account);
+        Optional<Map.Entry<User, List<Account>>> entryUser = getUserRecord(passport);
+        if (entryUser.isPresent() && !entryUser.get().getValue().contains(account)) {
+                entryUser.get().getValue().add(account);
         }
     }
 
@@ -46,18 +46,16 @@ public class Bank {
      * @param account - account.
      */
     public void deleteAccountFromUser(String passport, Account account) {
-        List<Account> accounts = getUserAccounts(passport);
-        accounts.remove(account);
+        getUserRecord(passport).ifPresent(s -> s.getValue().remove(account));
     }
 
     /**
-     * Returns a list of user accounts.
+     * Returns user record.
      * @param passport - passport.
      * @return - list of user accounts.
      */
-    public List<Account> getUserAccounts(String passport) {
-        Map.Entry<User, List<Account>> empty = new AbstractMap.SimpleEntry<>(null, new ArrayList<>());
-        return registry.entrySet().stream().filter(entry -> entry.getKey().getPassport().equals(passport)).findFirst().orElse(empty).getValue();
+    public Optional<Map.Entry<User, List<Account>>> getUserRecord(String passport) {
+        return registry.entrySet().stream().filter(entry -> entry.getKey().getPassport().equals(passport)).findFirst();
     }
 
     /**
@@ -66,9 +64,13 @@ public class Bank {
      * @param requisite - requisite.
      * @return - user account.
      */
-    public Account getUserAccountByRequisite(String passport, String requisite) {
-        Account account = Account.ACCOUNT_NOT_EXIST;
-        return getUserAccounts(passport).stream().filter(item -> item.getRequisites().equals(requisite)).findFirst().orElse(account);
+    public Optional<Account> getUserAccount(String passport, String requisite) {
+        Optional<Map.Entry<User, List<Account>>> entryUser = getUserRecord(passport);
+        Optional<Account> account = Optional.empty();
+        if (entryUser.isPresent()) {
+            account = entryUser.get().getValue().stream().filter(item -> item.getRequisites().equals(requisite)).findFirst();
+        }
+        return account;
     }
 
     /**
@@ -82,11 +84,11 @@ public class Bank {
      */
     public boolean transferMoney(String srcPassport, String srcRequisite, String destPassport, String dstRequisite, double amount) {
         boolean perhaps = false;
-        Account srcAccount = getUserAccountByRequisite(srcPassport, srcRequisite);
-        Account destAccount = getUserAccountByRequisite(destPassport, dstRequisite);
-        if (amount > 0D && !destAccount.equals(Account.ACCOUNT_NOT_EXIST) && srcAccount.getValue() >= amount) {
-            srcAccount.addValue(-amount);
-            destAccount.addValue(amount);
+        Optional<Account> srcAccount = getUserAccount(srcPassport, srcRequisite);
+        Optional<Account> destAccount = getUserAccount(destPassport, dstRequisite);
+        if (amount > 0D && destAccount.isPresent() && srcAccount.isPresent() && srcAccount.get().getValue() >= amount) {
+            srcAccount.get().addValue(-amount);
+            destAccount.get().addValue(amount);
             perhaps = true;
         }
         return perhaps;
