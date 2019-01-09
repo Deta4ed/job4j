@@ -13,50 +13,49 @@ public class DepartmentsTest {
 
     @Before
     public void ininDepatments() {
-        depatments = new ArrayList<>();
-        depatments.add("K3\\SK1\\SSK1");
-        depatments.add("K1\\SK2");
-        depatments.add("K1\\SK1\\SSK1");
-        depatments.add("K1\\SK1\\SSK2");
-        depatments.add("K2\\SK1\\SSK1");
-        depatments.add("K2\\SK1\\SSK2");
+        depatments = List.of(
+        "K3\\SK1\\SSK1",
+        "K1\\SK2",
+        "K1\\SK1\\SSK1",
+        "K1\\SK1\\SSK2",
+        "K2\\SK1\\SSK1",
+        "K2\\SK1\\SSK2");
     }
 
     @Test
     public void whenSortingInDescending() {
-        List<String> expect = new ArrayList<>();
-        expect.add("K3");
-        expect.add("K3\\SK1");
-        expect.add("K3\\SK1\\SSK1");
-        expect.add("K2");
-        expect.add("K2\\SK1");
-        expect.add("K2\\SK1\\SSK2");
-        expect.add("K2\\SK1\\SSK1");
-        expect.add("K1");
-        expect.add("K1\\SK2");
-        expect.add("K1\\SK1");
-        expect.add("K1\\SK1\\SSK2");
-        expect.add("K1\\SK1\\SSK1");
+        List<String> expect = List.of(
+        "K3",
+        "K3\\SK1",
+        "K3\\SK1\\SSK1",
+        "K2",
+        "K2\\SK1",
+        "K2\\SK1\\SSK2",
+        "K2\\SK1\\SSK1",
+        "K1",
+        "K1\\SK2",
+        "K1\\SK1",
+        "K1\\SK1\\SSK2",
+        "K1\\SK1\\SSK1");
         TreeSet<String> result = new Departments().sortedDiminution(this.depatments);
         assertThat(expect, contains(result.toArray()));
     }
 
     @Test
     public void whenSortingInAscending() {
-        List<String> expect = new ArrayList<>();
-        expect.add("K1");
-        expect.add("K1\\SK1");
-        expect.add("K1\\SK1\\SSK1");
-        expect.add("K1\\SK1\\SSK2");
-        expect.add("K1\\SK2");
-        expect.add("K2");
-        expect.add("K2\\SK1");
-        expect.add("K2\\SK1\\SSK1");
-        expect.add("K2\\SK1\\SSK2");
-        expect.add("K3");
-        expect.add("K3\\SK1");
-        expect.add("K3\\SK1\\SSK1");
-
+        List<String> expect = List.of(
+        "K1",
+        "K1\\SK1",
+        "K1\\SK1\\SSK1",
+        "K1\\SK1\\SSK2",
+        "K1\\SK2",
+        "K2",
+        "K2\\SK1",
+        "K2\\SK1\\SSK1",
+        "K2\\SK1\\SSK2",
+        "K3",
+        "K3\\SK1",
+        "K3\\SK1\\SSK1");
         TreeSet<String> result = new Departments().sortedAscending(this.depatments);
         assertThat(expect, contains(result.toArray()));
     }

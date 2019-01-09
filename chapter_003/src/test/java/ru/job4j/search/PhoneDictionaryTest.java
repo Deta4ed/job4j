@@ -3,6 +3,8 @@ package ru.job4j.search;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.collection.IsArrayContainingInAnyOrder.arrayContainingInAnyOrder;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.junit.Assert.assertThat;
@@ -19,10 +21,7 @@ public class PhoneDictionaryTest {
         phones.add(prs2);
         phones.add(prs3);
         List<Person> persons = phones.find("289");
-        List<Person> expect  = new ArrayList<>();
-        expect.add(prs1);
-        expect.add(prs2);
         assertThat(persons, hasSize(2));
-        assertThat(persons.toArray(), arrayContainingInAnyOrder(expect.toArray()));
+        assertThat(persons, is(List.of(prs1, prs2)));
     }
 }
