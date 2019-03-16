@@ -1,6 +1,10 @@
 package ru.job4j.stream;
 
 import java.io.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * DeleteWordsInStream.
@@ -21,13 +25,17 @@ public class DeleteWordsInStream {
     void dropAbuses(InputStream in, OutputStream out, String[] abuse) {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                for (String s : abuse) {
-                    line = line.replaceAll(s, "");
-                }
-                writer.write(line);
-            }
+             reader.lines().forEach(s -> {
+                         for (String a : abuse) {
+                             s = s.replaceAll(a, "");
+                         }
+                         try {
+                             writer.write(s);
+                         } catch (IOException e) {
+                             e.printStackTrace();
+                         }
+                     }
+             );
         } catch (IOException e) {
             e.printStackTrace();
         }
