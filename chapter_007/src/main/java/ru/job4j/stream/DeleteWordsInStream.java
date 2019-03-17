@@ -24,18 +24,8 @@ public class DeleteWordsInStream {
      */
     void dropAbuses(InputStream in, OutputStream out, String[] abuse) {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out))) {
-             reader.lines().forEach(s -> {
-                         for (String a : abuse) {
-                             s = s.replaceAll(a, "");
-                         }
-                         try {
-                             writer.write(s);
-                         } catch (IOException e) {
-                             e.printStackTrace();
-                         }
-                     }
-             );
+             PrintStream writer = new PrintStream(out)) {
+            reader.lines().map(s -> Arrays.stream(abuse).reduce(s, (s1, s2) -> s1.replaceAll(s2, ""))).forEach(writer::println);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -12,7 +12,7 @@ public class DeleteWordsInStreamTest {
         String strInput = "Когда удаляем \n"
                 + "лишние слова \n"
                 + "из входящего потока";
-        String strOutput = "Когда удаляем слова из  потока";
+        String strOutput = String.format("%s%n%s%n%s%n", "Когда удаляем ", "слова ", "из  потока");
         String[] abuses = {"лишние ", "входящего"};
         InputStream in = new ByteArrayInputStream(strInput.getBytes());
         OutputStream out = new ByteArrayOutputStream();
