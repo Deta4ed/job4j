@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  */
 public class Search {
 
-    public static List<File> files(String parent, List<String> exts) {
+    public List<File> files(String parent, List<String> exts) {
         return exts.stream().flatMap(
                 s -> getAllFiles(parent).stream().filter(
                         f -> f.getName().startsWith(s, f.getName().length() - s.length())
@@ -21,7 +21,7 @@ public class Search {
         ).collect(Collectors.toList());
     }
 
-    private static List<File> getAllFiles(String parent) {
+    private List<File> getAllFiles(String parent) {
         ArrayList<File> result = new ArrayList<>();
         Queue<File> queue = new LinkedList<>();
         queue.offer(new File(parent));

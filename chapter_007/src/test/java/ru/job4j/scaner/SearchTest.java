@@ -31,7 +31,6 @@ public class SearchTest {
                 new File(parent + "Dir4/Folder1/fileTwo.exe"),
                 new File(parent + "Dir5/Folder1/Folder2/file.txt"),
                 new File(parent + "Dir6/Folder1/Folder2/Folder3/file.exe")};
-
         Arrays.stream(directory).filter(folder -> !folder.exists()).forEach(folder -> folder.mkdirs());
         Arrays.stream(expected).filter(file -> !file.exists()).forEach(file -> {
             try {
@@ -40,6 +39,7 @@ public class SearchTest {
                 e.printStackTrace();
             }
         });
-        assertThat(Search.files(parent, listExtension), containsInAnyOrder(expected));
+        Search search = new Search();
+        assertThat(search.files(parent, listExtension), containsInAnyOrder(expected));
     }
 }
