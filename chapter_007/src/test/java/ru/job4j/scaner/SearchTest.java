@@ -13,7 +13,7 @@ public class SearchTest {
     @Test
     public void whenScanFilesThenExist() {
         List<String> listExtension = List.of("txt", "exe");
-        String parent = System.getProperty("java.io.tmpdir") + "Test/";
+        String parent = System.getProperty("java.io.tmpdir") + "/Test/";
         File[] directory = new File[]{
                 new File(parent + "Dir1/"),
                 new File(parent + "Dir2/Folder1/Folder2/"),
